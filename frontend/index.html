@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Top Up Game</title>
+</head>
+<body>
+  <h2>Top Up Game</h2>
+  <form id="orderForm">
+    <input type="text" id="game_id" placeholder="Game ID" required><br>
+    <input type="text" id="player_id" placeholder="Player ID" required><br>
+    <select id="product">
+      <option value="86 Diamonds">86 Diamonds</option>
+      <option value="170 Diamonds">170 Diamonds</option>
+    </select><br>
+    <input type="number" id="price" placeholder="Harga" required><br>
+    <button type="submit">Buat Pesanan</button>
+  </form>
+
+  <script>
+    document.getElementById("orderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const res = await fetch("/order/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          game_id: document.getElementById("game_id").value,
+          player_id: document.getElementById("player_id").value,
+          product: document.getElementById("product").value,
+          price: document.getElementById("price").value
+        })
+      });
+      const data = await res.json();
+      alert("Order ID: " + data.order_id);
+    });
+  </script>
+</body>
+  </html>
